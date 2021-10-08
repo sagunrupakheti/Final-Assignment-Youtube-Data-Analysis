@@ -12,6 +12,9 @@ try:
 
     def insert_into_raw_table(filePath,country,connection,cursor):
         # delete if any data exists in the table
+        delete_table = "TRUNCATE raw_video RESTART IDENTITY CASCADE;"
+        cursor.execute(delete_table)
+
         #https://stackoverflow.com/questions/19699367/for-line-in-results-in-unicodedecodeerror-utf-8-codec-cant-decode-byte
         with open(filePath,'r', encoding = "ISO-8859-1") as file:
             #, encoding = 'utf-8'

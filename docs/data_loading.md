@@ -123,6 +123,7 @@ to_char(trending_date, 'Day')
 FROM video
 ~~~
 Query to insert into dimension video
+* A slowly changing dimension (SCD) type 1 is implemented where only the recent data is stored
 * Video information of most recently added video is only stored
 * Video id remains consistent
 * Tags and Title are stored as list separated by a comma

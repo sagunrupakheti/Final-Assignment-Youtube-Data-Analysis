@@ -17,6 +17,8 @@ try:
     def insert_table_raw_json(filename,country):
         connection = connect()
         cursor = connection.cursor()
+        delete_table = "TRUNCATE raw_category RESTART IDENTITY CASCADE;"
+        cursor.execute(delete_table)
         id_to_category = {}
 
         with open(filename, 'r') as f:
