@@ -8,5 +8,3 @@ CREATE TABLE raw_category(
 	country VARCHAR(255)
 )
 
-SET client_encoding TO 'ISO-8859-1';
-SET client_encoding TO default;

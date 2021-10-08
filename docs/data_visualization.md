@@ -1,4 +1,4 @@
-##Data Visualization 
+# Data Visualization 
 
 1. Likes based on week days
 

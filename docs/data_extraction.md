@@ -1,4 +1,4 @@
-##Data Extraction
+# Data Extraction
 
 ---
 
@@ -7,7 +7,42 @@
 
 Steps:
 
+Basics
+
+* .env file containing host, database, user and password information
+* establish_connection.py file connecting postgres to psycopg2 using the .env file
+
+~~~python
+from dotenv import load_dotenv
+load_dotenv()
+import os
+import psycopg2
+
+def connect():
+    return psycopg2.connect(
+        user=os.getenv("user"),
+        password=os.getenv("password"),
+        host=os.getenv("host"),
+        port=os.getenv("port"),
+        database=os.getenv("database")
+    )
+~~~
+
 1. Create raw tables raw_category and raw_video
+
+* Similar methods are used to create raw and archive tables
+* The sql folder consists of a function that opens a file 
+* The query folder consists of variables storing paths of the DDL or DML
+* the query is passed into the sql to open the file and the cursor is executed
+
+~~~python
+    def create_raw_video(connection, cursor):
+        get_query = sql.open_read_file(query.raw_video_create)
+        cursor.execute(get_query)
+        connection.commit()
+~~~
+
+Query for creating raw video table
 ~~~sql
 CREATE TABLE raw_video(
 	video_id	VARCHAR(255),
@@ -30,6 +65,7 @@ CREATE TABLE raw_video(
 	);
 ~~~
 
+Query for creating raw category table
 ~~~sql
 CREATE TABLE raw_category(
 	kind VARCHAR(255),
@@ -43,6 +79,8 @@ CREATE TABLE raw_category(
 ~~~
 
 2. Create archive tables archive_category and archive_video
+
+Query for creating archive category table
 ~~~sql
 CREATE TABLE archive_category(
 	kind VARCHAR(255),
@@ -56,6 +94,7 @@ CREATE TABLE archive_category(
 )
 ~~~
 
+Query for creating archive video table
 ~~~sql
 CREATE TABLE archive_video(
 	video_id	VARCHAR(255),
@@ -81,7 +120,11 @@ CREATE TABLE archive_video(
 
 3. Extract data into raw and archive tables 
 
-* For category:
+To insert into raw category table,
+* The json file is opened
+* Looped through items dictionary
+* Each value individually pulled and inserted
+* The raw table only contains country not filename
 ~~~python
             for category in data['items']:
                 id_to_category[category['id']] = category['snippet']['title'],category['snippet']['assignable']
@@ -92,8 +135,10 @@ CREATE TABLE archive_video(
                 connection.commit()
 ~~~
 
-* For video:
-
+To insert into raw video table,
+* The csv file opened
+* The header is skipped
+* Country is appended to each row and data is inserted for each country
 ~~~python
             for data in reader(file):
                 if i==0:

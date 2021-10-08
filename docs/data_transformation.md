@@ -1,8 +1,14 @@
-##Transform Data
+# Transform Data
 
 Steps:
 1. Create standard tables category and video
 
+To view the contents in different languages in psql
+~~~sql
+SET client_encoding TO 'ISO-8859-1';
+~~~
+
+Create standard category table
 ~~~sql
 CREATE TABLE category(
 	category_id SERIAL PRIMARY KEY,
@@ -12,6 +18,7 @@ CREATE TABLE category(
 )
 ~~~
 
+Create standard video table
 ~~~sql
 
 CREATE TABLE video(
@@ -33,15 +40,18 @@ CREATE TABLE video(
 ~~~
 
 2. Transform and insert into standard category table
+* Distinct categories, their title and assignable value
 
 ~~~sql
 INSERT INTO category(client_category_id,title,assignable)
 SELECT DISTINCT(id),title,CAST(assignable AS bool)
 FROM raw_category;
 ~~~
-* distinct categories, their title and assignable value
+
 
 3. Transform and insert into standard video table
+* Insert publish date as date and time separately 
+* For tags, | is replaced by a comma and double quotes are removed
 
 ~~~sql
 INSERT INTO video(client_video_id,trending_date,title,channel_title,category_id,publish_date,publish_time,tags,views,

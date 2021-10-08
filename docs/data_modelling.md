@@ -1,4 +1,4 @@
-##Conceptual Model
+# Conceptual Model
 
 ---
 The entities identified for the system are:
@@ -22,7 +22,7 @@ Note: Video has been separated from trending videos fact table as facts usually 
 ![img.png](img.png)
 <center><i>Conceptual Model schema</i></center>
 
-##Physical Model
+# Physical Model
 
 ---
 Now, we identify the required attributes, datatypes and necessary constraints for the model.
