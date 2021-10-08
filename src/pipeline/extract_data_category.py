@@ -110,6 +110,9 @@ try:
         insert_standard_category(connection,cursor)
         create_dim_category(connection,cursor)
         insert_dim_category(connection,cursor)
+        print('all done')
+
+        connection.commit()
 
 except Exception as e:
     print(e)

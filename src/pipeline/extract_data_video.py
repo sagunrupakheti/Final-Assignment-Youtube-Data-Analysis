@@ -10,9 +10,7 @@ try:
         cursor.execute(get_query)
         connection.commit()
 
-    def insert_into_raw_table(filePath,country):
-        connection = connect()
-        cursor = connection.cursor()
+    def insert_into_raw_table(filePath,country,connection,cursor):
         # delete if any data exists in the table
         #https://stackoverflow.com/questions/19699367/for-line-in-results-in-unicodedecodeerror-utf-8-codec-cant-decode-byte
         with open(filePath,'r', encoding = "ISO-8859-1") as file:
@@ -35,9 +33,7 @@ try:
         cursor.execute(get_query)
         connection.commit()
 
-    def insert_into_archive_table(filePath,country):
-        connection = connect()
-        cursor = connection.cursor()
+    def insert_into_archive_table(filePath,country,connection,cursor):
         # delete if any data exists in the table
         #https://stackoverflow.com/questions/19699367/for-line-in-results-in-unicodedecodeerror-utf-8-codec-cant-decode-byte
         with open(filePath,'r', encoding = "ISO-8859-1") as file:
@@ -132,17 +128,31 @@ try:
         connection = connect()
         cursor = connection.cursor()
         create_raw_video(connection,cursor)
+        print('raw video created')
+        insert_into_raw_table('../../data/CAvideos.csv',"Canada",connection,cursor)
+        insert_into_raw_table('../../data/DEvideos.csv', "Germany",connection,cursor)
+        insert_into_raw_table('../../data/FRvideos.csv', "France",connection,cursor)
+        insert_into_raw_table('../../data/GBvideos.csv', "Great Britain",connection,cursor)
+        insert_into_raw_table('../../data/INvideos.csv', "India",connection,cursor)
+        insert_into_raw_table('../../data/JPvideos.csv', "Japan",connection,cursor)
+        insert_into_raw_table('../../data/KRvideos.csv', "Korea",connection,cursor)
+        insert_into_raw_table('../../data/MXvideos.csv', "Mexico",connection,cursor)
+        insert_into_raw_table('../../data/RUvideos.csv', "Russia",connection,cursor)
+        insert_into_raw_table('../../data/USvideos.csv', "United States",connection,cursor)
+        print('Inserted into raw')
 
-        insert_into_raw_table('../../data/CAvideos.csv',"Canada")
-        insert_into_raw_table('../../data/DEvideos.csv', "Germany")
-        insert_into_raw_table('../../data/FRvideos.csv', "France")
-        insert_into_raw_table('../../data/GBvideos.csv', "Great Britain")
-        insert_into_raw_table('../../data/INvideos.csv', "India")
-        insert_into_raw_table('../../data/JPvideos.csv', "Japan")
-        insert_into_raw_table('../../data/KRvideos.csv', "Korea")
-        insert_into_raw_table('../../data/MXvideos.csv', "Mexico")
-        insert_into_raw_table('../../data/RUvideos.csv', "Russia")
-        insert_into_raw_table('../../data/USvideos.csv', "United States")
+        create_archive_video(connection,cursor)
+        insert_into_archive_table('../../data/CAvideos.csv',"Canada",connection,cursor)
+        insert_into_archive_table('../../data/DEvideos.csv', "Germany",connection,cursor)
+        insert_into_archive_table('../../data/FRvideos.csv', "France",connection,cursor)
+        insert_into_archive_table('../../data/GBvideos.csv', "Great Britain",connection,cursor)
+        insert_into_archive_table('../../data/INvideos.csv', "India",connection,cursor)
+        insert_into_archive_table('../../data/JPvideos.csv', "Japan",connection,cursor)
+        insert_into_archive_table('../../data/KRvideos.csv', "Korea",connection,cursor)
+        insert_into_archive_table('../../data/MXvideos.csv', "Mexico",connection,cursor)
+        insert_into_archive_table('../../data/RUvideos.csv', "Russia",connection,cursor)
+        insert_into_archive_table('../../data/USvideos.csv', "United States",connection,cursor)
+        print('Inserted into archive')
 
         create_standard_video(connection,cursor)
         insert_standard_video(connection,cursor)
@@ -155,6 +165,8 @@ try:
 
         create_dim_channel(connection, cursor)
         load_dim_channel(connection, cursor)
+
+        print('all data loaded')
 
         create_dim_video(connection, cursor)
         load_dim_video(connection, cursor)

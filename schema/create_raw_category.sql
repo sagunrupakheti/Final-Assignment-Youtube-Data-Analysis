@@ -1,4 +1,4 @@
-CREATE TABLE raw_category(
+CREATE TABLE raw_raw_category(
 	kind VARCHAR(255),
 	etag VARCHAR(255),
 	id VARCHAR(255),
